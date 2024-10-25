@@ -1,0 +1,30 @@
+sudo apt update
+sudo apt upgrade
+sudo apt install wget
+sudo apt build-essential 
+sudo apt subversion
+cd /usr/src/
+sudo wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-20-current.tar.gz
+sudo tar zxf asterisk-20-current.tar.gz
+cd asterisk-20.*/
+sudo contrib/scripts/get_mp3_source.sh
+sudo contrib/scripts/install_prereq install
+sudo ./configure
+
+sudo make menuselect
+sudo make -j2
+sudo make install
+sudo make samples
+sudo make config
+sudo ldconfig
+
+sudo systemctl start asterisk
+sudo ufw allow 5060/udp
+
+# modify configuration files to your specification before proceeding with the following commands
+
+sudo asterisk -vvvr
+module load chan_sip.so
+module reload
+sip show peers
+
